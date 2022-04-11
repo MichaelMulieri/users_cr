@@ -31,3 +31,19 @@ class User:
         query = "INSERT INTO users (first_name, last_name, email) VALUES (%(first_name)s, %(last_name)s, %(email)s);"
         result = connectToMySQL('user_schema').query_db(query, data)
         return result
+
+    @classmethod
+    def show_one(cls, data):
+        query = "SELECT * FROM users WHERE id = %(id)s;"
+        result = connectToMySQL('user_schema').query_db(query, data)
+        return cls(result[0])
+
+    @classmethod
+    def update(cls, data):
+        query = "UPDATE users SET first_name=%(first_name)s, last_name=%(last_name)s, email=%(email)s, updated_at=NOW() WHERE id = %(id)s;"
+        return connectToMySQL('user_schema').query_db(query, data)
+
+    @classmethod
+    def destroy(cls, data):
+        query = "DELETE FROM users WHERE id = %(id)s;"
+        return connectToMySQL('user_schema').query_db(query, data)
